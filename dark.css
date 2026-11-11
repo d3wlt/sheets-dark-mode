@@ -1,0 +1,24 @@
+/* The grid is drawn on <canvas>, so per-element dark colors can't reach it.
+   Invert the whole page instead; hue-rotate keeps cell colors' hues roughly intact.
+   Dialogs and pickers in cross-origin iframes are covered too, since the filter
+   applies to everything rendered inside <html>. */
+html:not([data-sheets-dark-off]) {
+  filter: invert(0.9) hue-rotate(180deg) !important;
+  background: #fff !important;
+}
+
+/* Undo the inversion for things that must keep their real colors:
+   photos and avatars, the Sheets logo, and color picker swatches
+   (so the color you click is the color you get). */
+html:not([data-sheets-dark-off]) :is(
+  img,
+  video,
+  picture,
+  .docs-branding-icon-img,
+  .docs-material-colorpalette-colorswatch,
+  .docs-material-color-swatch-color,
+  .jfk-palette-colorswatch,
+  .goog-palette-colorswatch
+) {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
